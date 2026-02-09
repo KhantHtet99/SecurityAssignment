@@ -1,0 +1,44 @@
+﻿@page
+@model SecurityAssignment.Pages.MemberSearchModel
+@{
+    ViewData["Title"] = "Member Search";
+}
+
+<h1>Member Search</h1>
+
+<form method="get">
+    <div class="mb-3">
+        <label class="form-label">Email contains</label>
+        <input class="form-control" name="Email" value="@Model.Email" />
+    </div>
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
+<hr />
+
+@if (Model.Results.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>First</th>
+                <th>Last</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model.Results)
+            {
+                <tr>
+                    <td>@u.Email</td>
+                    <td>@u.FirstName</td>
+                    <td>@u.LastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (!string.IsNullOrWhiteSpace(Model.Email))
+{
+    <p>No results.</p>
+}

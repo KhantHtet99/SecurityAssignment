@@ -1,0 +1,1 @@
+﻿UPDATE dbo.AspNetUsers SET CurrentSessionId = NULL;

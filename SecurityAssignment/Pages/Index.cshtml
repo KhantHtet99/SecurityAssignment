@@ -1,0 +1,16 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@if (Model.AppUser != null)
+{
+    <h2>Welcome, @Model.AppUser.FirstName @Model.AppUser.LastName 👋</h2>
+    <p>Your email: @Model.AppUser.Email</p>
+}
+else
+{
+    <h2>Welcome to Ace Job Agency</h2>
+    <p>Please login or register to continue.</p>
+}

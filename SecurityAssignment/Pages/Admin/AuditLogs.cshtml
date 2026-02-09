@@ -1,0 +1,31 @@
+﻿@page
+@model SecurityAssignment.Pages.Admin.AuditLogsModel
+@{
+    ViewData["Title"] = "Audit Logs";
+}
+
+<h1>Audit Logs</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Time (UTC)</th>
+            <th>Action</th>
+            <th>UserId</th>
+            <th>IP</th>
+            <th>User Agent</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Logs)
+        {
+            <tr>
+                <td>@item.UtcTime</td>
+                <td>@item.Action</td>
+                <td>@item.UserId</td>
+                <td>@item.IpAddress</td>
+                <td style="max-width:420px; word-wrap:break-word;">@item.UserAgent</td>
+            </tr>
+        }
+    </tbody>
+</table>

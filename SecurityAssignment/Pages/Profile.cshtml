@@ -1,0 +1,57 @@
+﻿@page
+@model SecurityAssignment.Pages.ProfileModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<h1>My Profile</h1>
+
+@if (Model.AppUser == null)
+{
+    <p>User not found.</p>
+}
+else
+{
+    <div class="card p-3">
+        <p><b>First Name:</b> @Model.AppUser.FirstName</p>
+        <p><b>Last Name:</b> @Model.AppUser.LastName</p>
+        <p><b>Gender:</b> @Model.AppUser.Gender</p>
+        <p><b>Date of Birth:</b> @Model.AppUser.DateOfBirth.ToString("dd/MM/yyyy")</p>
+
+        <p><b>Who Am I:</b></p>
+        <div style="white-space:pre-wrap;">@Model.AppUser.WhoAmI</div>
+
+        <hr />
+
+        <p>
+            <b>Resume:</b>
+            @if (!string.IsNullOrEmpty(Model.AppUser.ResumePath))
+            {
+                <a href="@Model.AppUser.ResumePath" target="_blank">Download/View Resume</a>
+            }
+            else
+            {
+                <span>No resume uploaded.</span>
+            }
+        </p>
+
+        <hr />
+
+        @if (string.IsNullOrEmpty(Model.DecryptedNric))
+        {
+            <p class="text-muted">
+                <b>NRIC:</b> Hidden.
+                <a asp-page="/Profile" asp-route-showNric="1">Show</a>
+            </p>
+        }
+        else
+        {
+            <p class="text-muted">
+                <b>NRIC:</b> @Model.DecryptedNric
+                <a asp-page="/Profile">Hide</a>
+            </p>
+        }
+
+
+    </div>
+}
