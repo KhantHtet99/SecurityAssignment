@@ -93,16 +93,24 @@ namespace SecurityAssignment.Areas.Identity.Pages.Account
 
                 try
                 {
-                    await _emailSender.SendEmailAsync(
-                        Input.Email,
-                        "Reset Password",
-                        $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    var message =
+$@"You requested to reset your password.
+
+Reset link (valid for a short time):
+{callbackUrl}
+
+If you did not request this, you can ignore this email.";
+
+await _emailSender.SendEmailAsync(Input.Email, "Reset Password", message);
+
                 }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, "Email sending failed: " + ex.Message);
-                    return Page();
-                }
+                catch (Exception)
+{
+    // do NOT leak internal error details to user
+    ModelState.AddModelError(string.Empty, "Email sending failed. Please try again later.");
+    return Page();
+}
+
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
