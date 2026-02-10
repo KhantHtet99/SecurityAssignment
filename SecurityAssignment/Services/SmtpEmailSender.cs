@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
@@ -15,6 +15,7 @@ namespace SecurityAssignment.Services
             _config = config;
         }
 
+        // IEmailSender uses 'htmlMessage' name, but we treat it as PLAIN TEXT for security.
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             var host = _config["SmtpSettings:Host"];
@@ -28,9 +29,10 @@ namespace SecurityAssignment.Services
             {
                 From = new MailAddress(senderEmail!, senderName),
                 Subject = subject,
-                Body = htmlMessage,
-                IsBodyHtml = true
+                Body = htmlMessage,      // now treated as plain text message
+                IsBodyHtml = false       // ✅ critical fix
             };
+
             message.To.Add(email);
 
             using var client = new SmtpClient(host, port)
